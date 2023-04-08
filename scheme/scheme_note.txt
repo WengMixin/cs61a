@@ -1,0 +1,390 @@
+
+
+---------------------------------------------------------------------
+Understanding scheme.py > Suite 1 > Case 1
+(cases remaining: 6)
+
+Q: What types of expressions are represented as Pairs?
+Choose the number of the correct choice:
+0) All expressions are represented as Pairs
+1) Only call expressions
+2) Call expressions and special forms
+3) Only special forms
+? 2
+-- OK! --
+
+---------------------------------------------------------------------
+Understanding scheme.py > Suite 1 > Case 2
+(cases remaining: 5)
+
+Q: What expression in the body of scheme_eval finds the value of a name?
+Choose the number of the correct choice:
+0) SPECIAL_FORMS[first](rest, env)
+1) scheme_symbolp(expr)
+2) env.lookup(expr)
+3) env.find(name)
+? 2
+-- OK! --
+
+---------------------------------------------------------------------
+Understanding scheme.py > Suite 1 > Case 3
+(cases remaining: 4)
+
+Q: How do we know if a given combination is a special form?
+Choose the number of the correct choice:
+0) Check if the first element in the list is a symbol
+1) Check if the first element in the list is a symbol and that the
+   symbol is in the dictionary SPECIAL_FORMS
+2) Check if the expression is in the dictionary SPECIAL_FORMS
+? 1
+-- OK! --
+
+---------------------------------------------------------------------
+Understanding scheme.py > Suite 1 > Case 4
+(cases remaining: 3)
+
+Q: When and how do we create new Frames?
+Choose the number of the correct choice:
+0) Whenever a user-defined procedure is called; we use the
+   make_call_frame method of LambdaProcedure
+1) Whenever a primitive or user-defined procedure is called; we use
+   the apply method in subclasses of Procedure
+2) Whenever a primitive or user-defined procedure is called; we use
+   the make_call_frame method of LambdaProcedure
+3) Whenever a new procedure is defined; we use the make_child_frame
+   method in Frame
+? 0
+-- OK! --
+
+---------------------------------------------------------------------
+Understanding scheme.py > Suite 1 > Case 5
+(cases remaining: 2)
+
+Q: What is the difference between applying builtins and applying user-defined procedures?
+(Choose all that apply)
+
+I.   User-defined procedures open a new frame; builtins do not
+II.  Builtins simply execute a predefined function; user-defined
+     procedures must evaluate additional expressions in the body
+III. Builtins have a fixed number of arguments; user-defined procedures do not
+
+---
+Choose the number of the correct choice:
+0) I and III
+1) II and III
+2) I, II and III
+3) II only
+4) I and II
+5) I only
+6) III only
+? 4
+-- OK! --
+
+---------------------------------------------------------------------
+Understanding scheme.py > Suite 1 > Case 6
+(cases remaining: 1)
+
+Q: What exception should be raised for the expression (1)?
+Choose the number of the correct choice:
+0) AssertionError
+1) SchemeError("1 is not callable")
+2) SchemeError("malformed list: (1)")
+3) SchemeError("unknown identifier: 1")
+? 3
+-- Not quite. Try again! --
+
+Choose the number of the correct choice:
+0) AssertionError
+1) SchemeError("1 is not callable")
+2) SchemeError("malformed list: (1)")
+3) SchemeError("unknown identifier: 1")
+? 2
+-- Not quite. Try again! --
+
+Choose the number of the correct choice:
+0) AssertionError
+1) SchemeError("1 is not callable")
+2) SchemeError("malformed list: (1)")
+3) SchemeError("unknown identifier: 1")
+? 1
+-- OK! --
+
+
+
+
+--------------------------------------------------------------------
+Problem 4 > Suite 1 > Case 1
+(cases remaining: 5)
+
+>>> from scheme_reader import *
+>>> from scheme import *
+>>> expr = read_line('(+ 2 2)')
+>>> scheme_eval(expr, create_global_frame()) # Type SchemeError if you think this errors
+? Pair('+', Pair(2, Pair(2, nil)))
+? 4
+-- OK! --
+
+>>> scheme_eval(Pair('+', Pair(2, Pair(2, nil))), create_global_frame()) # Type SchemeError if you think this errors
+? 4
+-- OK! --
+
+>>> expr = read_line('(+ (+ 2 2) (+ 1 3) (* 1 4))')
+>>> scheme_eval(expr, create_global_frame()) # Type SchemeError if you think this errors
+? 12
+-- OK! --
+
+>>> expr = read_line('(yolo)')
+>>> scheme_eval(expr, create_global_frame()) # Type SchemeError if you think this errors
+? SchemeError
+-- OK! --
+
+---------------------------------------------------------------------
+Problem 4 > Suite 2 > Case 1
+(cases remaining: 4)
+
+
+scm> (* (+ 3 2) (+ 1 7)) ; Type SchemeError if you think this errors
+? 40
+-- OK! --
+
+scm> (1 2) ; Type SchemeError if you think this errors
+? SchemeError
+-- OK! --
+
+scm> (1 (print 0)) ; validate_procedure should be called before operands are evaluated
+? SchemeError
+-- OK! --
+
+---------------------------------------------------------------------
+OK! All cases for Problem 4 unlocked.
+
+
+---------------------------------------------------------------------
+Problem 6 > Suite 4 > Case 1
+(cases remaining: 6)
+
+>>> read_line(" 'x ")
+Choose the number of the correct choice:
+0) Pair('quote', 'x')
+1) Pair('quote', Pair('x', nil))
+2) Pair('x', nil)
+3) 'x'
+? 1
+-- OK! --
+
+>>> read_line(" '(a b) ")
+Choose the number of the correct choice:
+0) Pair('quote', Pair('a', 'b'))
+1) Pair('a', Pair('b', nil))
+2) Pair('quote', Pair('a', Pair('b', nil)))
+3) Pair('quote', Pair(Pair('a', Pair('b', nil)), nil))
+? 3
+-- OK! --
+
+>>> read_line(" `(,b) ")
+Choose the number of the correct choice:
+0) Pair('unquote', Pair('b', nil))
+1) Pair('quasiquote', Pair('unquote', Pair('b', nil)))
+2) Pair('quasiquote', Pair(Pair(Pair('unquote', Pair('b', nil)), nil), nil))
+3) Pair('quasiquote', Pair(Pair('unquote', Pair('b', nil)), nil))
+? 2
+-- OK! --
+
+
+---------------------------------------------------------------------
+Problem 7 > Suite 2 > Case 1
+
+scm> (define x 0)
+? x
+-- OK! --
+
+scm> (begin (define x (+ x 1)) 42 (define y (+ x 1)))
+? y
+-- OK! --
+
+? x
+? 1
+-- OK! --
+
+scm> y
+? 2
+-- OK! --
+
+
+---------------------------------------------------------------------
+Problem 11 > Suite 3 > Case 1
+(cases remaining: 2)
+
+scm> (define (outer-func x y)
+....   (define (inner z x)
+....     (+ x (* y 2) (* z 3)))
+....   inner)
+? outer-func
+-- OK! --
+
+scm> ((outer-func 1 2) 1 10)
+? 25
+-- Not quite. Try again! --
+
+? 17
+-- OK! --
+
+
+Thunk 是一种惰性求值技术，它可以将函数调用的参数封装成一个延迟计算的对象，只有在需要的时候才进行实际的计算。Thunk 技术可以用于优化尾递归，避免递归深度过大而导致的栈溢出。
+
+下面是一个使用 Thunk 类来优化尾递归的示例：
+
+class Thunk:
+    def __init__(self, fn, *args, **kwargs):
+        self.fn = fn
+        self.args = args
+        self.kwargs = kwargs
+        self.value = None
+
+    def force(self):
+        if self.value is None:
+            self.value = self.fn(*self.args, **self.kwargs)
+        return self.value
+
+def trampoline(thunk):
+    while isinstance(thunk, Thunk):
+        thunk = thunk.force()
+    return thunk
+
+def factorial(n, acc=1):
+    if n == 0:
+        return acc
+    else:
+        return Thunk(factorial, n-1, n*acc)
+
+print(trampoline(factorial(1000)))
+
+在这个示例中，我们定义了一个 Thunk 类，用于封装延迟计算的函数调用。Thunk 对象在初始化时会接受一个函数对象和其它参数，然后在调用 force() 方法时执行函数调用并返回结果。如果已经计算过结果，force() 方法会直接返回缓存的结果。
+
+然后我们定义了一个 trampoline 函数，它接受一个 Thunk 对象，并不断地调用 force() 方法直到得到最终的结果。这个函数实现了一个 trampoline 循环，用于避免递归深度过大而导致的栈溢出。
+
+最后，我们使用 Thunk 对象来封装递归调用，从而实现了尾递归优化。在调用 factorial(1000) 时，实际上并没有真正进行递归调用，而是生成了一个 Thunk 对象，然后通过 trampoline 函数进行延迟计算，最终得到了正确的结果。
+
+需要注意的是，Thunk 技术需要注意性能问题，因为每次调用 force() 方法都需要进行一次函数调用，可能会影响程序的性能。因此，使用 Thunk 技术时需要权衡性能和代码复杂度。
+
+
+
+如果不更改原来的eval函数，只是增加一个‘tail'形参用来表示尾递归以及返回Thunk对象，那么修饰原来的eval的尾递归优化函数该如何实现？
+
+如果不更改原来的 eval 函数，只是增加一个 tail 形参用来表示尾递归以及返回 Thunk 对象，可以考虑使用装饰器来实现修饰的尾递归优化函数。
+
+以下是一个可能的实现:
+class Thunk:
+    def __init__(self, expr, env):
+        self.expr = expr
+        self.env = env
+        self.value = None
+
+    def force(self):
+        if self.value is None:
+            self.value = evaluate(self.expr, self.env, tail=True).force()
+        return self.value
+
+def tail_recursion_optimization(eval_func):
+    def eval_tail(expr, env, tail=False):
+        if tail:
+            return Thunk(expr, env)
+        else:
+            return eval_func(expr, env)
+    return eval_tail
+
+该装饰器函数 tail_recursion_optimization 接受一个 eval_func 参数，表示要修饰的 eval 函数。然后返回一个新的函数 eval_tail，该函数与原来的 eval 函数的参数列表相同，但增加了一个 tail 形参。
+
+在 eval_tail 函数中，如果 tail 形参为真，则返回一个 Thunk 对象，否则调用原来的 eval 函数。这样就实现了用 Thunk 类来优化尾递归的功能。可以在调用 eval 函数之前使用 tail_recursion_optimization 装饰器来修饰 eval 函数。例如：
+
+
+在上述实现中，Thunk 对象的 force 方法会返回 evaluate 函数的结果。如果 Thunk 对象的 value 属性没有被计算过，就调用 evaluate 函数，并将 tail 参数设为 True，表示要进行尾递归优化。最终返回 Thunk 对象的 value 属性。
+
+当使用 eval_tail 函数调用 eval 函数时，如果 tail 形参为真，则会返回一个 Thunk 对象，否则会调用原来的 eval 函数。这样就实现了用 Thunk 类来优化尾递归的功能。
+
+可以在调用 eval 函数之前使用 tail_recursion_optimization 装饰器来修饰 eval 函数，例如：
+
+[[那其他的函数，在执行eval时，该如何判断是否把tail参数改为True呢？
+
+要判断一个表达式是否处于尾递归位置，需要考虑到以下两个条件：
+
+1.表达式是尾调用：即该表达式是当前环境的最后一条语句，且语句的值是一个函数调用。
+2.函数调用是自身：即该函数调用是尾调用自身。
+对于第一个条件，可以通过判断表达式是否在当前环境中的最后一条语句，可以使用 let 表达式来实现这个功能。对于第二个条件，可以通过检查函数名是否与当前环境中的函数名相同来实现。
+
+以下是一个可能的实现：
+
+def evaluate(expr, env, tail=False):
+    while True:
+        if isinstance(expr, str):  # 变量引用
+            return env.find(expr)[expr]
+        elif not isinstance(expr, list):  # 常量字面值
+            return expr
+        elif expr[0] == 'quote':  # 引用
+            (_, exp) = expr
+            return exp
+        elif expr[0] == 'if':  # 条件
+            (_, test, conseq, alt) = expr
+            expr = (conseq if evaluate(test, env) else alt)
+        elif expr[0] == 'set!':  # 赋值
+            (_, var, exp) = expr
+            env.find(var)[var] = evaluate(exp, env)
+            return None
+        elif expr[0] == 'define':  # 定义
+            (_, var, exp) = expr
+            env[var] = evaluate(exp, env)
+            return None
+        elif expr[0] == 'lambda':  # 过程
+            (_, params, body) = expr
+            return Procedure(params, body, env)
+        elif expr[0] == 'begin':  # 顺序执行
+            for exp in expr[1:]:
+                val = evaluate(exp, env, tail)
+                if tail and exp != expr[-1]:
+                    return val
+            expr = expr[-1]
+        else:  # 过程调用
+            proc = evaluate(expr[0], env)
+            args = [evaluate(arg, env) for arg in expr[1:]]
+            if isinstance(proc, PrimitiveProcedure):
+                return proc.fn(*args)
+            elif isinstance(proc, Procedure):
+                env = Environment(proc.env)
+                for par, arg in zip(proc.params, args):
+                    env[par] = arg
+                if tail and is_tail_call(expr, env.find(proc.name)):
+                    expr = proc.body
+                else:
+                    expr = proc.body
+                    tail = False
+            else:
+                raise ValueError("Unknown procedure type")
+
+def is_tail_call(expr, env):
+    if isinstance(expr, list) and expr[0] in ('if', 'begin', 'set!', 'define'):
+        return False
+    elif isinstance(expr, list) and expr[0] == 'lambda':
+        # 过程调用的尾递归优化不在这里实现
+        return False
+    elif isinstance(expr, list):
+        return is_tail_call(expr[-1], env)
+    elif isinstance(expr, str):
+        return env[expr].name == env.find(expr).name
+    else:
+        return True
+
+
+以上述的 optimize_tail_calls 函数为核心，需要配合使用和受到影响的函数如下：
+
+scheme_eval(expr, env): scheme_eval 调用 optimized_eval 函数进行求值，因此 optimize_tail_calls 的变化会影响 scheme_eval 的行为。
+eval_all(exprs, env): eval_all 函数递归调用 scheme_eval，因此 optimize_tail_calls 的变化也会影响 eval_all 的行为。
+scheme_apply(procedure, args, env): scheme_apply 在调用 eval_all 之前会进行 procedure 的类型判断，因此 optimize_tail_calls 的变化会影响 BuiltinProcedure 对象的 apply 方法的行为。
+Procedure.make_call_frame(args, env): make_call_frame 方法调用 Frame 对象的 extend 方法创建新的帧，因此 optimize_tail_calls 的变化也会影响 Frame 对象的 extend 方法的行为。
+Thunk(expr, env): optimize_tail_calls 函数会根据是否是尾调用来决定是否创建 Thunk 对象返回，因此 Thunk 对象的行为也会受到影响。
+需要注意的是，以上列出的函数可能不是全部受到影响的函数，但这些函数是在 Scheme 解释器中比较核心的函数，受到影响的情况比较显著。
+
+
+还是optimize_tail_calls函数，我很满意，在此基础上，我提最后一个要求，我想在句子中加入：
+if tail and not scheme_symbolp(expr) and not self_evaluating(expr):
+           return Thunk(expr, env)
+这样做或许对while循环有影响，或者其他的影响，请告诉我可行性以及修改后的最终的optimize_tail_calls函数。
